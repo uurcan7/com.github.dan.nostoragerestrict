@@ -8,7 +8,7 @@ import de.robv.android.xposed.callbacks.XC_LoadPackage;
 public class FolderRestrictionhook {
     public void handleLoadPackage(XC_LoadPackage.LoadPackageParam lpparam) throws Throwable {
         try {
-            XC_MethodHook.Unhook managedModeEnabled = XposedHelpers.findAndHookMethod(
+            XposedHelpers.findAndHookMethod(
                     "com.android.externalstorage.ExternalStorageProvider",
                     lpparam.classLoader,
                     "shouldBlockDirectoryFromTree", String.class,
@@ -21,7 +21,7 @@ public class FolderRestrictionhook {
         } catch (NoSuchMethodError e) {
             XposedBridge.log("Trying B hook");
             try {
-                XC_MethodHook.Unhook managedModeEnabledB = XposedHelpers.findAndHookMethod(
+                XposedHelpers.findAndHookMethod(
                         "com.android.externalstorage.ExternalStorageProvider",
                         lpparam.classLoader,
                         "shouldBlockFromTree", String.class,
@@ -33,7 +33,6 @@ public class FolderRestrictionhook {
                         });
             } catch (NoSuchMethodError eB) {
                 XposedBridge.log("Both hooks failed");
-                eB.printStackTrace(); // Print the stack trace for debugging purposes
             }
         }
     }
