@@ -9,6 +9,7 @@ on:
 
 jobs:
   build:
+
     runs-on: ubuntu-latest
 
     steps:
@@ -25,8 +26,23 @@ jobs:
     - name: Rename signed apk
       run: mv app/build/outputs/apk/release/app-release-unsigned.apk app/build/outputs/apk/release/NoStorageRestrict.apk
 
-    - name: Upload unsigned APK
+    - uses: noriban/sign-android-release@master
+      name: Sign app APK
+      id: sign_app
+      with:
+        releaseDirectory: app/build/outputs/apk/release
+        signingKeyBase64: ${{ secrets.SIGNING_KEY }}
+        alias: ${{ secrets.ALIAS }}
+        keyStorePassword: ${{ secrets.KEY_STORE_PASSWORD }}
+        keyPassword: ${{ secrets.KEY_PASSWORD }}
+
+    - name: Upload signed APK
       uses: actions/upload-artifact@main
       with:
         name: NoStorageRestrict.apk
-        path: app/build/outputs/apk/release/NoStorageRestrict.apk
+        path: ${{steps.sign_app.outputs.signedReleaseFile}}
+
+    - name: Collect signed APK
+      uses: actions/download-artifact@main
+      with:
+        name: NoStorageRestrict.apk
