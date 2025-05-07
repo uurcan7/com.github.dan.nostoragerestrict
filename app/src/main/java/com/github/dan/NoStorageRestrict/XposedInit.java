@@ -27,5 +27,9 @@ public class XposedInit implements IXposedHookLoadPackage {
         if (Constants.STORAGEMANAGER_NAME.equals(lpparam.packageName)) {
             new DocumentHideBypass().handleLoadPackage(lpparam);
         }
+
+        if (Constants.STORAGEMANAGER_NAME.equals(lpparam.packageName)) {
+            new NoRestrict().handleLoadPackage(lpparam);
+        }
     }
 }
