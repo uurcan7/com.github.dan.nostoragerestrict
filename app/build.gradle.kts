@@ -8,12 +8,12 @@ plugins {
 }
 
 android {
-    compileSdk = 37
+    compileSdk = 36
 
     defaultConfig {
         applicationId = "com.github.dan.NoStorageRestrict"
         minSdk = 15
-        targetSdk = 37
+        targetSdk = 36
         versionCode = 5
         versionName = "0.5.0"
     }
